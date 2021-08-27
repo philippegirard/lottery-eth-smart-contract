@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import lottery from "./lottery";
+import lottery, {address} from "./lottery";
 import web3 from "./web3";
 
 class App extends React.Component {
@@ -10,7 +10,8 @@ class App extends React.Component {
         balance: '',
         value: 0,
         loading: false,
-        loadingMessage: "",
+        enterMessage: "",
+        pickWinnerMessage: "",
     }
 
     async componentDidMount() {
@@ -42,17 +43,44 @@ class App extends React.Component {
             });
 
             this.setState({
-                loadingMessage: "Success! You have been entered!",
+                enterMessage: "Success! You have been entered!",
             });
         } catch (e) {
             this.setState({
-                loadingMessage: "Rejected. The transaction was stopped.",
+                enterMessage: "Rejected. The transaction was stopped.",
             });
         } finally {
             this.setState({
                 loading: false,
             });
         }
+    }
+
+    pickWinner = async (event) => {
+        event.preventDefault();
+        this.setState({
+            loading: true,
+            pickWinnerMessage: "Waiting for transaction..."
+        });
+
+        try {
+            const accounts = await web3.eth.getAccounts();
+
+            await lottery.methods.pickWinner().send({
+                from: accounts[0]
+            })
+
+            this.setState({
+                pickWinnerMessage: "Success! A winner has been picked."
+            })
+        } catch (e) {
+            this.setState({
+                pickWinnerMessage: "Rejected. The transaction was stopped."
+            })
+        } finally {
+            this.setState({loading: false})
+        }
+
     }
 
     render() {
@@ -76,8 +104,19 @@ class App extends React.Component {
                     </div>
                     <button disabled={this.state.loading}>Enter</button>
                 </form>
-                <hr/>
                 <h1>{this.state.loadingMessage}</h1>
+                <hr/>
+
+                <h4>Ready to pick a winner?</h4>
+                <button onClick={this.pickWinner}>Pick a winner!</button>
+                <p>You need to be the manager ({this.state.manager}) to run this function</p>
+                <h1>{this.state.pickWinnerMessage}</h1>
+
+                <hr/>
+
+                <h4>Contract informations</h4>
+                <p><a href={"https://rinkeby.etherscan.io/address/" + address} target="_blank">View contract on etherscan (Rinkeby)</a></p>
+                <p><a href={"https://github.com/philippegirard/eth-smart1"} target="_blank">View contract source code on GitHub</a></p>
             </div>
         );
     }

@@ -44,4 +44,5 @@ const abi = [{
     "type": "function"
 }, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}]
 
+export {address};
 export default new web3.eth.Contract(abi, address);
