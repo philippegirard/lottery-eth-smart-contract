@@ -7,16 +7,16 @@ const {abi, bytecode} = require("../compile");
 
 let lottery;
 let accounts;
-let senderAccount;
+let managerAccount;
 
 beforeEach(async () => {
     accounts = await web3.eth.getAccounts();
-    senderAccount = accounts[0];
+    managerAccount = accounts[0];
 
     lottery = await new web3.eth.Contract(abi)
         .deploy({data: bytecode})
         .send({
-            from: senderAccount,
+            from: managerAccount,
             gas: "1000000"
         });
 });
@@ -27,17 +27,16 @@ describe("Lottery Contract", () => {
     });
 
     it("allows one account to enter", async () => {
-        web3.eth.sendTransaction({
-            to: lottery.options.address,
-            from:senderAccount,
+        await lottery.methods.enter().send({
+            from: managerAccount,
             value: web3.utils.toWei("0.02", "ether"),
-        })
-
-        const players = await lottery.methods.players().call({
-            from: senderAccount,
         });
 
-        assert.equal(senderAccount, players[0]);
+        const players = await lottery.methods.getPlayers().call({
+            from: managerAccount,
+        });
+
+        assert.equal(managerAccount, players[0]);
         assert.equal(1, players.length);
     });
 
@@ -90,13 +89,15 @@ describe("Lottery Contract", () => {
 
     it("sends money to the winner and resets the players array", async () => {
         await lottery.methods.enter().send({
-            from: accounts[0],
+            from: managerAccount,
             value: web3.utils.toWei("2", "ether"),
         });
 
-        const initialBalance = await web3.eth.getBalance(accounts[0]);
-        await lottery.methods.pickWinner().send({from: accounts[0]});
-        const finalBalance = await web3.eth.getBalance(accounts[0]);
+        const initialBalance = await web3.eth.getBalance(managerAccount);
+        await lottery.methods.pickWinner().send({
+            from: managerAccount,
+        });
+        const finalBalance = await web3.eth.getBalance(managerAccount);
         const difference = finalBalance - initialBalance;
 
         assert(difference > web3.utils.toWei("1.8", "ether"));

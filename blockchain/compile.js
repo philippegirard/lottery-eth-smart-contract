@@ -23,6 +23,10 @@ var input = {
 
 var output = JSON.parse(solc.compile(JSON.stringify(input)));
 
+if (output.errors) {
+    console.log(output.errors)
+}
+
 const contract = output.contracts['lottery.sol']["Lottery"]
 
 const abi = contract.abi
