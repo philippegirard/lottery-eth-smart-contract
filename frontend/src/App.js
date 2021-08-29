@@ -12,13 +12,13 @@ class App extends React.Component {
         loading: false,
         enterMessage: "",
         pickWinnerMessage: "",
+        showPlayers: false,
     }
 
     async componentDidMount() {
         const manager = await lottery.methods.manager().call();
         const players = await lottery.methods.getPlayers().call();
         const lastWinner = await lottery.methods.lastWinner().call();
-        console.log(lastWinner);
         const balance = await web3.eth.getBalance(lottery.options.address);
 
         this.setState({
@@ -86,6 +86,17 @@ class App extends React.Component {
     }
 
     render() {
+        let playersListLi = [];
+
+        for (let i = 0; i < this.state.players.length; i++) {
+            const playerAddr = this.state.players[i];
+            playersListLi.push(<li key={`${i}-${playerAddr}`}>{playerAddr}</li>)
+        }
+
+        if (this.state.players.length <= 0) {
+            playersListLi = [<li key="0-part">No participant yet.</li>]
+        }
+
         return (
             <div style={{padding: "10px"}}>
                 <h2>Lottery Contract</h2>
@@ -94,7 +105,17 @@ class App extends React.Component {
                     competing to win {web3.utils.fromWei(this.state.balance)} ether!
                 </p>
                 <p>The last winner was: {this.state.lastWinner}</p>
+                <button onClick={() => {this.setState({showPlayers: !this.state.showPlayers})}}>
+                    Show participants
+                </button>
+                {this.state.showPlayers &&
+                <div>
+                    <ul>
+                        {playersListLi}
+                    </ul>
+                </div>}
                 <hr/>
+
                 <h4>Want to try your luck?</h4>
                 <div>
                     <label>Send 0.1 Ether to enter</label>
