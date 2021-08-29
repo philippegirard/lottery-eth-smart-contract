@@ -27,6 +27,6 @@ const deploy = async () => {
         });
 
     console.log("Contract deployed to", result.options.address);
-    // 0x02BB800747d802F809246Aca46c5fE310Ff15F52
+    // 0x02F0D639D089Db05c34764d0A8A47f7aaBA63Ca7
 };
 deploy()
