@@ -1,14 +1,14 @@
 import "./App.css";
 import React from "react";
-import lottery, {address} from "./lottery";
+import {address, contract as lottery} from "./lottery";
 import web3 from "./web3";
 
 class App extends React.Component {
     state = {
         manager: '',
         players: [],
+        lastWinner: '',
         balance: '',
-        value: 0,
         loading: false,
         enterMessage: "",
         pickWinnerMessage: "",
@@ -16,18 +16,20 @@ class App extends React.Component {
 
     async componentDidMount() {
         const manager = await lottery.methods.manager().call();
-        const players = await lottery.methods.getPlayers().call();
+        const players = await lottery.methods.getPlayers().call(); // TODO Fix
+        console.log(players)
+        const lastWinner = await lottery.methods.lastWinner().call(); // TODO Fix
         const balance = await web3.eth.getBalance(lottery.options.address);
 
         this.setState({
             manager,
             players,
+            lastWinner,
             balance
         })
     }
 
-    // gasPrice: '5000000000'
-    onSubmit = async (event) => {
+    enterContest = async (event) => {
         event.preventDefault();
         this.setState({
             loading: true,
@@ -39,7 +41,7 @@ class App extends React.Component {
 
             await lottery.methods.enter().send({
                 from: accounts[0],
-                value: web3.utils.toWei(this.state.value, 'ether'),
+                value: web3.utils.toWei(0.1.toString(), 'ether'),
             });
 
             this.setState({
@@ -92,31 +94,34 @@ class App extends React.Component {
                     competing to win {web3.utils.fromWei(this.state.balance)} ether!
                 </p>
                 <hr/>
-                <form onSubmit={this.onSubmit}>
-                    <h4>Want to try your luck?</h4>
-                    <div>
-                        <label>Amount of ether to enter</label>
-                        <input
-                            value={this.state.value}
-                            onChange={event => this.setState({value: event.target.value})}
-                        />
-                        <span> (min 0.1 ether)</span>
-                    </div>
-                    <button disabled={this.state.loading}>Enter</button>
-                </form>
-                <h1>{this.state.loadingMessage}</h1>
+                <h4>Want to try your luck?</h4>
+                <div>
+                    <label>Send 0.1 Ether to enter</label>
+                </div>
+                <button
+                    onClick={this.enterContest}
+                    disabled={this.state.loading}
+                >
+                    Enter
+                </button>
                 <hr/>
 
                 <h4>Ready to pick a winner?</h4>
                 <button onClick={this.pickWinner}>Pick a winner!</button>
                 <p>You need to be the manager ({this.state.manager}) to run this function</p>
-                <h1>{this.state.pickWinnerMessage}</h1>
-
                 <hr/>
 
-                <h4>Contract informations</h4>
-                <p><a href={"https://rinkeby.etherscan.io/address/" + address} target="_blank">View contract on etherscan (Rinkeby)</a></p>
-                <p><a href={"https://github.com/philippegirard/eth-smart1"} target="_blank">View contract source code on GitHub</a></p>
+                <h4>Contract information</h4>
+                <p>
+                    <a href={"https://rinkeby.etherscan.io/address/" + address} target="_blank" rel="noreferrer">
+                        View contract on etherscan (Rinkeby)
+                    </a>
+                </p>
+                <p>
+                    <a href={"https://github.com/philippegirard/eth-smart1"} target="_blank" rel="noreferrer">
+                        View contract source code on GitHub
+                    </a>
+                </p>
             </div>
         );
     }
