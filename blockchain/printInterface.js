@@ -1,3 +1,3 @@
 const {abi} = require("./compile");
 
-console.log(abi)
+console.log(JSON.stringify(abi, null, 4));

@@ -16,9 +16,9 @@ class App extends React.Component {
 
     async componentDidMount() {
         const manager = await lottery.methods.manager().call();
-        const players = await lottery.methods.getPlayers().call(); // TODO Fix
-        console.log(players)
-        const lastWinner = await lottery.methods.lastWinner().call(); // TODO Fix
+        const players = await lottery.methods.getPlayers().call();
+        const lastWinner = await lottery.methods.lastWinner().call();
+        console.log(lastWinner);
         const balance = await web3.eth.getBalance(lottery.options.address);
 
         this.setState({
@@ -93,6 +93,7 @@ class App extends React.Component {
                 <p>There are currently {this.state.players.length} people entered,
                     competing to win {web3.utils.fromWei(this.state.balance)} ether!
                 </p>
+                <p>The last winner was: {this.state.lastWinner}</p>
                 <hr/>
                 <h4>Want to try your luck?</h4>
                 <div>
