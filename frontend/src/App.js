@@ -144,6 +144,24 @@ class App extends React.Component {
                         View contract source code on GitHub
                     </a>
                 </p>
+                <hr/>
+
+                <h4>Made by Philippe Girard</h4>
+                <div>
+                    <a href={"https://github.com/philippegirard"} target="_blank" rel="noreferrer">
+                        GitHub
+                    </a>
+                </div>
+                <div>
+                    <a href={"https://twitter.com/radphilx"} target="_blank" rel="noreferrer">
+                        Twitter
+                    </a>
+                </div>
+                <div>
+                    <a href={"https://www.linkedin.com/in/philgirard/"} target="_blank" rel="noreferrer">
+                        LinkedIn
+                    </a>
+                </div>
             </div>
         );
     }
