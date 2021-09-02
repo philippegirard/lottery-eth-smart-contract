@@ -33,6 +33,10 @@ class App extends React.Component {
             lastWinner,
             balance
         })
+
+        // hide no-metamask warning
+        document.getElementById("nometamask").style.visibility = "hidden";
+        document.getElementById("nometamask").style.display = "none";
     }
 
     enterContest = async (event) => {
@@ -112,7 +116,7 @@ class App extends React.Component {
                         This ethereum smart contact is deployed on the Rinkeby Network.
                     </a>
                 </p>
-                <p>Your select Web3 account: {this.state.selectedWeb3Account}</p>
+                <p>Your selected Web3 account: {this.state.selectedWeb3Account}</p>
 
                 <h2>Lottery Contract</h2>
                 <p>This contract is managed by {this.state.manager}</p>
