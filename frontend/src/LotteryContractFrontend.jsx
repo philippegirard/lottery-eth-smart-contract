@@ -9,10 +9,9 @@ export default class LotteryContractFrontend extends React.Component {
         players: [],
         lastWinner: '',
         balance: '',
-        loading: false,
-        enterMessage: "",
-        pickWinnerMessage: "",
         showPlayers: false,
+        loading: false,
+        loadingMessage: '',
     }
 
     async componentDidMount() {
@@ -42,7 +41,7 @@ export default class LotteryContractFrontend extends React.Component {
         event.preventDefault();
         this.setState({
             loading: true,
-            loadingMessage: "Waiting for transaction... Do not reload the page.",
+            loadingMessage: "Waiting for enterContest() transaction... Do not reload the page.",
         })
 
         try {
@@ -53,11 +52,11 @@ export default class LotteryContractFrontend extends React.Component {
             });
 
             this.setState({
-                enterMessage: "Success! You have been entered!",
+                loadingMessage: "Success! You have been entered!",
             });
         } catch (e) {
             this.setState({
-                enterMessage: "Rejected. The transaction was stopped.",
+                loadingMessage: "Rejected. The transaction was stopped.",
             });
         } finally {
             this.setState({
@@ -70,7 +69,7 @@ export default class LotteryContractFrontend extends React.Component {
         event.preventDefault();
         this.setState({
             loading: true,
-            pickWinnerMessage: "Waiting for transaction..."
+            loadingMessage: "Waiting for pickWinner() transaction..."
         });
 
         try {
@@ -79,14 +78,16 @@ export default class LotteryContractFrontend extends React.Component {
             })
 
             this.setState({
-                pickWinnerMessage: "Success! A winner has been picked."
+                loadingMessage: "Success! A winner has been picked."
             })
         } catch (e) {
             this.setState({
-                pickWinnerMessage: "Rejected. The transaction was stopped."
+                loadingMessage: "Rejected. The transaction was stopped."
             })
         } finally {
-            this.setState({loading: false})
+            this.setState({
+                loading: false,
+            })
         }
 
     }
@@ -110,13 +111,16 @@ export default class LotteryContractFrontend extends React.Component {
                     competing to win {web3.utils.fromWei(this.state.balance)} ether!
                 </p>
                 <p>The last winner was: {this.state.lastWinner}</p>
-                <button class="btn btn-primary" onClick={() => {
-                    this.setState({showPlayers: !this.state.showPlayers})
-                }}>
+                <button class="btn btn-primary"
+                        disabled={this.state.loading}
+                        onClick={() => {
+                            this.setState({showPlayers: !this.state.showPlayers})
+                        }}
+                >
                     Show participants
                 </button>
                 {this.state.showPlayers &&
-                <div>
+                <div style={{marginTop: '10px'}}>
                     <ul>
                         {playersListLi}
                     </ul>
@@ -139,9 +143,25 @@ export default class LotteryContractFrontend extends React.Component {
                 <h4>Ready to pick a winner?</h4>
                 <button
                     class="btn btn-primary"
+                    disabled={this.state.loading}
                     onClick={this.pickWinner}>Pick a winner!
                 </button>
                 <p>You need to be the manager ({this.state.manager}) to run this function</p>
+
+                {this.state.loadingMessage != '' &&
+                <div>
+                    <div className="alert alert-warning" role="alert">
+                        <div>
+                            {this.state.loadingMessage}
+                        </div>
+                        {this.state.loading &&
+                        <div style={{textAlign: "center", marginTop: '10px'}}>
+                            <div className="spinner-border text-warning" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>}
+                    </div>
+                </div>}
             </>
         )
     }

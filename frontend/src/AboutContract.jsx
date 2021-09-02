@@ -18,7 +18,7 @@ export default class AboutContract extends React.Component {
                 <p>
                     <a href={"https://rinkeby.etherscan.io/address/" + address} target="_blank"
                        rel="noreferrer">
-                        View contract on etherscan (Rinkeby)
+                        View contract on Etherscan (Rinkeby)
                     </a>
                 </p>
                 <p>
