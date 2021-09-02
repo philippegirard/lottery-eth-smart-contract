@@ -24,7 +24,17 @@ export default class Banner extends React.Component {
                         <div className="alert alert-info" role="alert">
                             <div>Your selected Web3 account is: {this.state.selectedWeb3Account}</div>
                             <div>This <a href={"https://rinkeby.etherscan.io/address/" + address} target="_blank"
-                                         rel="noreferrer">contract</a> is deployed on the Rinkeby network.</div>
+                                         rel="noreferrer">contract</a> is deployed on the Rinkeby network.
+                            </div>
+                            <div style={{ marginTop: '5px'}}>
+                                <a href="https://www.loom.com/share/48a64e2e31444589944bdd4ef6188d2b" target="_blank">
+                                    <button
+                                        class="btn btn-info"
+                                    >
+                                        Watch Demo Video
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
