@@ -110,7 +110,7 @@ export default class LotteryContractFrontend extends React.Component {
                     competing to win {web3.utils.fromWei(this.state.balance)} ether!
                 </p>
                 <p>The last winner was: {this.state.lastWinner}</p>
-                <button onClick={() => {
+                <button class="btn btn-primary" onClick={() => {
                     this.setState({showPlayers: !this.state.showPlayers})
                 }}>
                     Show participants
@@ -128,6 +128,7 @@ export default class LotteryContractFrontend extends React.Component {
                     <label>Send 0.1 Ether to enter</label>
                 </div>
                 <button
+                    class="btn btn-primary"
                     onClick={this.enterContest}
                     disabled={this.state.loading}
                 >
@@ -136,7 +137,10 @@ export default class LotteryContractFrontend extends React.Component {
                 <hr/>
 
                 <h4>Ready to pick a winner?</h4>
-                <button onClick={this.pickWinner}>Pick a winner!</button>
+                <button
+                    class="btn btn-primary"
+                    onClick={this.pickWinner}>Pick a winner!
+                </button>
                 <p>You need to be the manager ({this.state.manager}) to run this function</p>
             </>
         )
