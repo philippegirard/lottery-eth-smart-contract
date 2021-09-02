@@ -11,11 +11,6 @@ contract Lottery {
         manager = msg.sender;
     }
 
-    // receive() external payable {
-    //     require(msg.value >= 0.01 ether);
-    //     players.push(payable(msg.sender));
-    // }
-
     function enter() public payable {
         require(msg.value == 0.1 ether);
         players.push(payable(msg.sender));
@@ -35,7 +30,6 @@ contract Lottery {
 
     function pickWinner() public {
         require(msg.sender == manager);
-        // require(players.length >= 3);
 
         uint r = random();
         address payable winner;

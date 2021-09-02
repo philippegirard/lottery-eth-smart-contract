@@ -13,7 +13,6 @@ const web3 = new Web3(provider);
 
 
 const deploy = async () => {
-    // const accounts = await web3.eth.getAccounts();
     const deployerAddress = process.env["DEPLOYER_ACCOUNT_ADDR"];
 
     console.log("Attempting to deploy from account", deployerAddress);
