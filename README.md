@@ -1,5 +1,5 @@
 # lottery-eth-smart-contract
 
-See a hosted demo here: https://eth-demo.livestreamlabs.app/
+Hosted Demo: https://eth-demo.livestreamlabs.app/
 
-Watch demo video here: https://youtu.be/KhbyCjnISgM
+Demo Video: https://youtu.be/KhbyCjnISgM
