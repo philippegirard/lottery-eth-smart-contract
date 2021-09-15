@@ -26,14 +26,24 @@ export default class Banner extends React.Component {
                             <div>This <a href={"https://rinkeby.etherscan.io/address/" + address} target="_blank"
                                          rel="noreferrer">contract</a> is deployed on the Rinkeby network.
                             </div>
-                            <div style={{ marginTop: '5px'}}>
-                                <a href="https://www.loom.com/share/48a64e2e31444589944bdd4ef6188d2b" target="_blank">
-                                    <button
-                                        class="btn btn-info"
-                                    >
-                                        Watch Demo Video
-                                    </button>
-                                </a>
+                            <div style={{display: "flex", marginTop: '20px', alignItems: "center"}}>
+                                <div>
+                                    <a href="https://www.loom.com/share/48a64e2e31444589944bdd4ef6188d2b"
+                                       target="_blank">
+                                        <button
+                                            class="btn btn-info"
+                                        >
+                                            Watch Demo Video
+                                        </button>
+                                    </a>
+                                </div>
+
+                                <div style={{marginLeft: '10px'}}>
+                                    <a href="https://github.com/philippegirard/lottery-eth-smart-contract"
+                                       target="_blank">
+                                        Source code on Github
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
