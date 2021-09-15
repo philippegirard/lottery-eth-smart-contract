@@ -31,7 +31,7 @@ export default class Banner extends React.Component {
                                     <a href="https://www.loom.com/share/48a64e2e31444589944bdd4ef6188d2b"
                                        target="_blank">
                                         <button
-                                            class="btn btn-info"
+                                            className="btn btn-info"
                                         >
                                             Watch Demo Video
                                         </button>
